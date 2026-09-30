@@ -1,0 +1,1897 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Test de Seguretat Informàtica</title>
+
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --success: #16a34a;
+            --success-bg: #dcfce7;
+            --danger: #dc2626;
+            --danger-bg: #fee2e2;
+            --background: #f1f5f9;
+            --card: #ffffff;
+            --text: #1e293b;
+            --muted: #64748b;
+            --border: #cbd5e1;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family:
+                Inter,
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            background: var(--background);
+            color: var(--text);
+        }
+
+        /* =========================
+           CABECERA
+        ========================== */
+
+        header {
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    var(--primary-dark)
+                );
+
+            color: white;
+            text-align: center;
+            padding: 45px 20px;
+        }
+
+        header h1 {
+            margin: 0 0 10px;
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
+        }
+
+        header p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 1.05rem;
+        }
+
+        /* =========================
+           BARRA DE PROGRESO
+        ========================== */
+
+        .progress-container {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+
+            background: white;
+            padding: 12px 20px;
+
+            box-shadow:
+                0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .progress-wrapper {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 7px;
+
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+
+            background: #e2e8f0;
+
+            border-radius: 50px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+
+            background: var(--primary);
+
+            border-radius: inherit;
+
+            transition:
+                width 0.3s ease;
+        }
+
+        /* =========================
+           CONTENEDOR
+        ========================== */
+
+        .container {
+            width: min(900px, calc(100% - 30px));
+
+            margin: 35px auto 60px;
+        }
+
+        /* =========================
+           PREGUNTAS
+        ========================== */
+
+        .question {
+            background: var(--card);
+
+            border-radius: 14px;
+
+            padding: 24px;
+
+            margin-bottom: 22px;
+
+            border: 1px solid #e2e8f0;
+
+            box-shadow:
+                0 4px 12px rgba(0, 0, 0, 0.05);
+
+            transition:
+                transform 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .question:hover {
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 6px 18px rgba(0, 0, 0, 0.07);
+        }
+
+        .question-title {
+            display: flex;
+            gap: 10px;
+
+            margin: 0 0 18px;
+
+            font-size: 1.05rem;
+            line-height: 1.5;
+        }
+
+        .question-number {
+            flex-shrink: 0;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            width: 30px;
+            height: 30px;
+
+            background: #dbeafe;
+            color: var(--primary);
+
+            border-radius: 50%;
+
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        /* =========================
+           OPCIONES
+        ========================== */
+
+        .option {
+            display: flex;
+            align-items: flex-start;
+
+            gap: 10px;
+
+            padding: 13px 15px;
+
+            margin: 8px 0;
+
+            border: 1px solid var(--border);
+
+            border-radius: 9px;
+
+            cursor: pointer;
+
+            line-height: 1.45;
+
+            transition:
+                background 0.2s ease,
+                border-color 0.2s ease,
+                transform 0.15s ease;
+        }
+
+        .option:hover {
+            background: #eff6ff;
+            border-color: #93c5fd;
+        }
+
+        .option input {
+            margin-top: 3px;
+
+            accent-color: var(--primary);
+
+            cursor: pointer;
+        }
+
+        .option.correct {
+            background: var(--success-bg);
+
+            border-color: var(--success);
+
+            color: #166534;
+        }
+
+        .option.incorrect {
+            background: var(--danger-bg);
+
+            border-color: var(--danger);
+
+            color: #991b1b;
+        }
+
+        .option.disabled {
+            cursor: default;
+        }
+
+        /* =========================
+           BOTONES
+        ========================== */
+
+        .buttons {
+            display: flex;
+
+            justify-content: center;
+
+            gap: 15px;
+
+            margin: 35px 0;
+        }
+
+        button {
+            border: none;
+
+            border-radius: 9px;
+
+            padding: 14px 28px;
+
+            font-size: 1rem;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition:
+                background 0.2s ease,
+                transform 0.15s ease;
+        }
+
+        button:hover {
+            transform: translateY(-1px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .btn-correct {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-correct:hover {
+            background: var(--primary-dark);
+        }
+
+        .btn-reset {
+            background: #e2e8f0;
+            color: #334155;
+        }
+
+        .btn-reset:hover {
+            background: #cbd5e1;
+        }
+
+        /* =========================
+           RESULTADO
+        ========================== */
+
+        .result {
+            display: none;
+
+            background: white;
+
+            border-radius: 14px;
+
+            padding: 35px 25px;
+
+            margin-top: 30px;
+
+            text-align: center;
+
+            border: 1px solid #e2e8f0;
+
+            box-shadow:
+                0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .result h2 {
+            margin: 0 0 15px;
+
+            color: var(--primary);
+        }
+
+        .score {
+            font-size: 3.5rem;
+
+            font-weight: 800;
+
+            color: var(--text);
+
+            margin: 10px 0;
+        }
+
+        .percentage {
+            color: var(--muted);
+
+            font-size: 1rem;
+        }
+
+        .message {
+            margin-top: 15px;
+
+            font-size: 1.1rem;
+
+            font-weight: 600;
+        }
+
+        /* =========================
+           ESTADO DE PREGUNTA
+        ========================== */
+
+        .question.unanswered {
+            border-color: #f59e0b;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media (max-width: 600px) {
+
+            header {
+                padding: 35px 15px;
+            }
+
+            .container {
+                width: calc(100% - 20px);
+            }
+
+            .question {
+                padding: 18px;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+            }
+
+            .score {
+                font-size: 2.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+
+    <h1>🔐 Test de Seguretat Informàtica</h1>
+
+    <p>
+        20 preguntes per comprovar els teus coneixements
+    </p>
+
+</header>
+
+
+<!-- =========================
+     BARRA DE PROGRESO
+========================== -->
+
+<div class="progress-container">
+
+    <div class="progress-wrapper">
+
+        <div class="progress-info">
+
+            <span>Progrés</span>
+
+            <span id="progressText">
+                0 / 20
+            </span>
+
+        </div>
+
+        <div class="progress-bar">
+
+            <div
+                id="progressFill"
+                class="progress-fill">
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<main class="container">
+
+    <form id="quiz">
+
+        <!-- =====================================================
+             PREGUNTA 1
+        ====================================================== -->
+
+        <section class="question" data-question="1">
+
+            <h2 class="question-title">
+
+                <span class="question-number">1</span>
+
+                <span>
+                    Quin dels següents conceptes forma part de
+                    la tríada CIA de la seguretat de la informació?
+                </span>
+
+            </h2>
+
+            <label class="option">
+                <input type="radio" name="q1" value="a">
+                <span>a) Autenticació</span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q1" value="b">
+                <span>b) Disponibilitat</span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q1" value="c">
+                <span>c) Auditoria</span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q1" value="d">
+                <span>d) Autorització</span>
+            </label>
+
+        </section>
+
+
+        <!-- =====================================================
+             PREGUNTA 2
+        ====================================================== -->
+
+        <section class="question" data-question="2">
+
+            <h2 class="question-title">
+
+                <span class="question-number">2</span>
+
+                <span>
+                    Si una persona sense permisos aconsegueix
+                    consultar un document confidencial, quin
+                    principi de seguretat s'ha vulnerat?
+                </span>
+
+            </h2>
+
+            <label class="option">
+                <input type="radio" name="q2" value="a">
+                <span>a) Disponibilitat</span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q2" value="b">
+                <span>b) Integritat</span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q2" value="c">
+                <span>c) Confidencialitat</span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q2" value="d">
+                <span>d) No repudiació</span>
+            </label>
+
+        </section>
+
+
+        <!-- =====================================================
+             PREGUNTA 3
+        ====================================================== -->
+
+        <section class="question" data-question="3">
+
+            <h2 class="question-title">
+
+                <span class="question-number">3</span>
+
+                <span>
+                    Un atacant modifica les dades d'un registre
+                    sense autorització. Quin principi s'ha vist afectat?
+                </span>
+
+            </h2>
+
+            <label class="option">
+                <input type="radio" name="q3" value="a">
+                <span>a) Integritat</span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q3" value="b">
+                <span>b) Disponibilitat</span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q3" value="c">
+                <span>c) Confidencialitat</span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q3" value="d">
+                <span>d) Autenticació</span>
+            </label>
+
+        </section>
+
+
+        <!-- =====================================================
+             PREGUNTA 4
+        ====================================================== -->
+
+        <section class="question" data-question="4">
+
+            <h2 class="question-title">
+
+                <span class="question-number">4</span>
+
+                <span>
+                    Un servidor deixa de funcionar i els usuaris
+                    autoritzats no poden accedir als seus serveis.
+                    Quin principi s'ha afectat?
+                </span>
+
+            </h2>
+
+            <label class="option">
+                <input type="radio" name="q4" value="a">
+                <span>a) Confidencialitat</span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q4" value="b">
+                <span>b) Integritat</span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q4" value="c">
+                <span>c) Disponibilitat</span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q4" value="d">
+                <span>d) Autenticació</span>
+            </label>
+
+        </section>
+
+
+        <!-- =====================================================
+             PREGUNTA 5
+        ====================================================== -->
+
+        <section class="question" data-question="5">
+
+            <h2 class="question-title">
+
+                <span class="question-number">5</span>
+
+                <span>
+                    Quin exemple representa millor el principi
+                    de no repudiació?
+                </span>
+
+            </h2>
+
+            <label class="option">
+                <input type="radio" name="q5" value="a">
+                <span>
+                    a) Un usuari pot accedir sense introduir
+                    cap credencial
+                </span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q5" value="b">
+                <span>
+                    b) Es pot demostrar que una persona concreta
+                    va signar digitalment un document
+                </span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q5" value="c">
+                <span>
+                    c) Un servidor disposa de còpies de seguretat
+                </span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q5" value="d">
+                <span>
+                    d) Una informació està xifrada
+                </span>
+            </label>
+
+        </section>
+
+
+        <!-- =====================================================
+             PREGUNTA 6
+        ====================================================== -->
+
+        <section class="question" data-question="6">
+
+            <h2 class="question-title">
+
+                <span class="question-number">6</span>
+
+                <span>
+                    Quin dels següents és un exemple de mesura
+                    de seguretat física?
+                </span>
+
+            </h2>
+
+            <label class="option">
+                <input type="radio" name="q6" value="a">
+                <span>a) Un antivirus</span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q6" value="b">
+                <span>b) Una contrasenya</span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q6" value="c">
+                <span>
+                    c) Un sistema de control d'accés
+                    a la sala de servidors
+                </span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q6" value="d">
+                <span>d) Un certificat digital</span>
+            </label>
+
+        </section>
+
+
+        <!-- =====================================================
+             PREGUNTA 7
+        ====================================================== -->
+
+        <section class="question" data-question="7">
+
+            <h2 class="question-title">
+
+                <span class="question-number">7</span>
+
+                <span>
+                    Quin element pertany principalment
+                    a la seguretat lògica?
+                </span>
+
+            </h2>
+
+            <label class="option">
+                <input type="radio" name="q7" value="a">
+                <span>a) Una càmera de vigilància</span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q7" value="b">
+                <span>b) Una porta amb pany</span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q7" value="c">
+                <span>c) Un sistema d'autenticació d'usuaris</span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q7" value="d">
+                <span>d) Un sistema contra incendis</span>
+            </label>
+
+        </section>
+
+
+        <!-- =====================================================
+             PREGUNTA 8
+        ====================================================== -->
+
+        <section class="question" data-question="8">
+
+            <h2 class="question-title">
+
+                <span class="question-number">8</span>
+
+                <span>
+                    Quina mesura té una funció principalment preventiva?
+                </span>
+
+            </h2>
+
+            <label class="option">
+                <input type="radio" name="q8" value="a">
+                <span>
+                    a) Restaurar una còpia de seguretat
+                    després d'un atac
+                </span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q8" value="b">
+                <span>
+                    b) Instal·lar un tallafocs per bloquejar
+                    connexions no autoritzades
+                </span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q8" value="c">
+                <span>
+                    c) Recuperar un servidor després d'una avaria
+                </span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q8" value="d">
+                <span>
+                    d) Analitzar els danys causats per un atac
+                </span>
+            </label>
+
+        </section>
+
+
+        <!-- =====================================================
+             PREGUNTA 9
+        ====================================================== -->
+
+        <section class="question" data-question="9">
+
+            <h2 class="question-title">
+
+                <span class="question-number">9</span>
+
+                <span>
+                    Quin exemple correspondria a una mesura
+                    de seguretat passiva?
+                </span>
+
+            </h2>
+
+            <label class="option">
+                <input type="radio" name="q9" value="a">
+                <span>
+                    a) Un sistema de còpies de seguretat que permet
+                    recuperar dades després d'un incident
+                </span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q9" value="b">
+                <span>
+                    b) Un firewall que bloqueja connexions sospitoses
+                </span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q9" value="c">
+                <span>
+                    c) Un sistema d'autenticació multifactor
+                </span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q9" value="d">
+                <span>
+                    d) Un sistema de prevenció d'intrusions
+                </span>
+            </label>
+
+        </section>
+
+
+        <!-- =====================================================
+             PREGUNTA 10
+        ====================================================== -->
+
+        <section class="question" data-question="10">
+
+            <h2 class="question-title">
+
+                <span class="question-number">10</span>
+
+                <span>
+                    Una contrasenya és un exemple de quin
+                    factor d'autenticació?
+                </span>
+
+            </h2>
+
+            <label class="option">
+                <input type="radio" name="q10" value="a">
+                <span>a) Alguna cosa que tens</span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q10" value="b">
+                <span>b) Alguna cosa que saps</span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q10" value="c">
+                <span>c) Alguna cosa que eres</span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q10" value="d">
+                <span>d) Alguna cosa que fas</span>
+            </label>
+
+        </section>
+
+
+        <!-- =====================================================
+             PREGUNTA 11
+        ====================================================== -->
+
+        <section class="question" data-question="11">
+
+            <h2 class="question-title">
+
+                <span class="question-number">11</span>
+
+                <span>
+                    Quin dels següents seria un exemple de
+                    "quelcom que tens"?
+                </span>
+
+            </h2>
+
+            <label class="option">
+                <input type="radio" name="q11" value="a">
+                <span>a) Una empremta dactilar</span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q11" value="b">
+                <span>b) Una contrasenya</span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q11" value="c">
+                <span>
+                    c) Un telèfon que rep un codi de verificació
+                </span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q11" value="d">
+                <span>d) El reconeixement facial</span>
+            </label>
+
+        </section>
+
+
+        <!-- =====================================================
+             PREGUNTA 12
+        ====================================================== -->
+
+        <section class="question" data-question="12">
+
+            <h2 class="question-title">
+
+                <span class="question-number">12</span>
+
+                <span>
+                    Quina seqüència descriu correctament
+                    el model AAA?
+                </span>
+
+            </h2>
+
+            <label class="option">
+                <input type="radio" name="q12" value="a">
+                <span>
+                    a) Autorització → Autenticació → Auditoria
+                </span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q12" value="b">
+                <span>
+                    b) Autenticació → Autorització → Auditoria
+                </span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q12" value="c">
+                <span>
+                    c) Auditoria → Autorització → Autenticació
+                </span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q12" value="d">
+                <span>
+                    d) Autenticació → Auditoria → Autorització
+                </span>
+            </label>
+
+        </section>
+
+
+        <!-- =====================================================
+             PREGUNTA 13
+        ====================================================== -->
+
+        <section class="question" data-question="13">
+
+            <h2 class="question-title">
+
+                <span class="question-number">13</span>
+
+                <span>
+                    Què ocorre durant l'autorització d'un usuari?
+                </span>
+
+            </h2>
+
+            <label class="option">
+                <input type="radio" name="q13" value="a">
+                <span>
+                    a) Es comprova la identitat de l'usuari
+                </span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q13" value="b">
+                <span>
+                    b) Es determina a quins recursos o accions
+                    té permís d'accés
+                </span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q13" value="c">
+                <span>
+                    c) Es xifren totes les dades del sistema
+                </span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q13" value="d">
+                <span>
+                    d) Es crea una còpia de seguretat
+                </span>
+            </label>
+
+        </section>
+
+
+        <!-- =====================================================
+             PREGUNTA 14
+        ====================================================== -->
+
+        <section class="question" data-question="14">
+
+            <h2 class="question-title">
+
+                <span class="question-number">14</span>
+
+                <span>
+                    Quina situació descriu millor una vulnerabilitat?
+                </span>
+
+            </h2>
+
+            <label class="option">
+                <input type="radio" name="q14" value="a">
+                <span>
+                    a) Un error de configuració que permet
+                    accés no autoritzat
+                </span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q14" value="b">
+                <span>
+                    b) Un atacant que roba una contrasenya
+                </span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q14" value="c">
+                <span>
+                    c) Un virus que infecta un ordinador
+                </span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q14" value="d">
+                <span>
+                    d) Un administrador que actualitza el sistema
+                </span>
+            </label>
+
+        </section>
+
+
+        <!-- =====================================================
+             PREGUNTA 15
+        ====================================================== -->
+
+        <section class="question" data-question="15">
+
+            <h2 class="question-title">
+
+                <span class="question-number">15</span>
+
+                <span>
+                    Quina relació existeix entre una vulnerabilitat
+                    i un exploit?
+                </span>
+
+            </h2>
+
+            <label class="option">
+                <input type="radio" name="q15" value="a">
+                <span>
+                    a) L'exploit és la debilitat i la vulnerabilitat
+                    és l'atac
+                </span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q15" value="b">
+                <span>
+                    b) La vulnerabilitat és la debilitat i l'exploit
+                    és el mecanisme que pot aprofitar-la
+                </span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q15" value="c">
+                <span>
+                    c) Són exactament el mateix concepte
+                </span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q15" value="d">
+                <span>
+                    d) Una vulnerabilitat només existeix després
+                    d'un atac
+                </span>
+            </label>
+
+        </section>
+
+
+        <!-- =====================================================
+             PREGUNTA 16
+        ====================================================== -->
+
+        <section class="question" data-question="16">
+
+            <h2 class="question-title">
+
+                <span class="question-number">16</span>
+
+                <span>
+                    Quin dels següents exemples és malware?
+                </span>
+
+            </h2>
+
+            <label class="option">
+                <input type="radio" name="q16" value="a">
+                <span>a) Ransomware</span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q16" value="b">
+                <span>b) Firewall</span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q16" value="c">
+                <span>c) VPN</span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q16" value="d">
+                <span>
+                    d) Sistema d'autenticació multifactor
+                </span>
+            </label>
+
+        </section>
+
+
+        <!-- =====================================================
+             PREGUNTA 17
+        ====================================================== -->
+
+        <section class="question" data-question="17">
+
+            <h2 class="question-title">
+
+                <span class="question-number">17</span>
+
+                <span>
+                    Una persona rep un correu que sembla procedir
+                    del seu banc i li demana que introduïsca les seues
+                    credencials en una pàgina web falsa. Quin tipus
+                    d'atac és?
+                </span>
+
+            </h2>
+
+            <label class="option">
+                <input type="radio" name="q17" value="a">
+                <span>a) DDoS</span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q17" value="b">
+                <span>b) Phishing</span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q17" value="c">
+                <span>a) Atac de força bruta</span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q17" value="d">
+                <span>d) Escaneig de ports</span>
+            </label>
+
+        </section>
+
+
+        <!-- =====================================================
+             PREGUNTA 18
+        ====================================================== -->
+
+        <section class="question" data-question="18">
+
+            <h2 class="question-title">
+
+                <span class="question-number">18</span>
+
+                <span>
+                    Quina informació està especialment protegida
+                    pel RGPD?
+                </span>
+
+            </h2>
+
+            <label class="option">
+                <input type="radio" name="q18" value="a">
+                <span>a) Únicament les dades bancàries</span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q18" value="b">
+                <span>
+                    b) Les dades personals de les persones físiques
+                </span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q18" value="c">
+                <span>
+                    c) Només les contrasenyes dels treballadors públics
+                </span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q18" value="d">
+                <span>
+                    d) Exclusivament la informació publicada a Internet
+                </span>
+            </label>
+
+        </section>
+
+
+        <!-- =====================================================
+             PREGUNTA 19
+        ====================================================== -->
+
+        <section class="question" data-question="19">
+
+            <h2 class="question-title">
+
+                <span class="question-number">19</span>
+
+                <span>
+                    En un tràmit d'Administració electrònica,
+                    per què és important autenticar correctament
+                    el ciutadà?
+                </span>
+
+            </h2>
+
+            <label class="option">
+                <input type="radio" name="q19" value="a">
+                <span>
+                    a) Per garantir que la persona que realitza
+                    el tràmit és qui diu ser
+                </span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q19" value="b">
+                <span>
+                    b) Per evitar que es facen còpies de seguretat
+                </span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q19" value="c">
+                <span>
+                    c) Per eliminar la necessitat de protegir les dades
+                </span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q19" value="d">
+                <span>
+                    d) Perquè tots els tràmits siguen anònims
+                </span>
+            </label>
+
+        </section>
+
+
+        <!-- =====================================================
+             PREGUNTA 20
+        ====================================================== -->
+
+        <section class="question" data-question="20">
+
+            <h2 class="question-title">
+
+                <span class="question-number">20</span>
+
+                <span>
+                    Quina diferència hi ha entre un atac actiu
+                    i un atac passiu?
+                </span>
+
+            </h2>
+
+            <label class="option">
+                <input type="radio" name="q20" value="a">
+                <span>
+                    a) L'actiu intenta alterar o interrompre el sistema,
+                    mentre que el passiu busca principalment obtenir
+                    informació sense modificar-la
+                </span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q20" value="b">
+                <span>
+                    b) El passiu sempre és més greu que l'actiu
+                </span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q20" value="c">
+                <span>
+                    c) L'actiu només afecta el maquinari i el passiu
+                    només el programari
+                </span>
+            </label>
+
+            <label class="option">
+                <input type="radio" name="q20" value="d">
+                <span>
+                    d) No existeix cap diferència entre els dos tipus
+                </span>
+            </label>
+
+        </section>
+
+    </form>
+
+
+    <!-- =========================
+         BOTONES
+    ========================== -->
+
+    <div class="buttons">
+
+        <button
+            type="button"
+            class="btn-correct"
+            id="correctButton">
+
+            ✓ Corregir test
+
+        </button>
+
+        <button
+            type="button"
+            class="btn-reset"
+            id="resetButton">
+
+            ↻ Reiniciar
+
+        </button>
+
+    </div>
+
+
+    <!-- =========================
+         RESULTADO
+    ========================== -->
+
+    <section
+        class="result"
+        id="result">
+
+        <h2>Resultat</h2>
+
+        <div
+            class="score"
+            id="score">
+
+            0 / 20
+
+        </div>
+
+        <div
+            class="percentage"
+            id="percentage">
+
+            0%
+
+        </div>
+
+        <div
+            class="message"
+            id="message">
+        </div>
+
+    </section>
+
+</main>
+
+
+<script>
+
+"use strict";
+
+
+/* ==========================================================
+   CONFIGURACIÓN DEL TEST
+========================================================== */
+
+const TOTAL_PREGUNTAS = 20;
+
+
+/*
+ * Respostes correctes.
+ *
+ * Important:
+ * Aquest objecte només conté les respostes,
+ * no les dades seleccionades per l'usuari.
+ */
+
+const respostesCorrectes = {
+
+    q1: "b",
+    q2: "c",
+    q3: "a",
+    q4: "c",
+    q5: "b",
+    q6: "c",
+    q7: "c",
+    q8: "b",
+    q9: "a",
+    q10: "b",
+    q11: "c",
+    q12: "b",
+    q13: "b",
+    q14: "a",
+    q15: "b",
+    q16: "a",
+    q17: "b",
+    q18: "b",
+    q19: "a",
+    q20: "a"
+
+};
+
+
+/* ==========================================================
+   ELEMENTOS DEL DOM
+========================================================== */
+
+const quiz = document.getElementById("quiz");
+
+const correctButton =
+    document.getElementById("correctButton");
+
+const resetButton =
+    document.getElementById("resetButton");
+
+const result =
+    document.getElementById("result");
+
+const score =
+    document.getElementById("score");
+
+const percentage =
+    document.getElementById("percentage");
+
+const message =
+    document.getElementById("message");
+
+const progressFill =
+    document.getElementById("progressFill");
+
+const progressText =
+    document.getElementById("progressText");
+
+
+/* ==========================================================
+   ACTUALIZAR PROGRESO
+========================================================== */
+
+function actualizarProgreso() {
+
+    let contestadas = 0;
+
+
+    for (let i = 1; i <= TOTAL_PREGUNTAS; i++) {
+
+        const respuesta =
+            document.querySelector(
+                `input[name="q${i}"]:checked`
+            );
+
+        if (respuesta) {
+            contestadas++;
+        }
+    }
+
+
+    const porcentaje =
+        (contestadas / TOTAL_PREGUNTAS) * 100;
+
+
+    progressFill.style.width =
+        `${porcentaje}%`;
+
+
+    progressText.textContent =
+        `${contestadas} / ${TOTAL_PREGUNTAS}`;
+
+}
+
+
+/* ==========================================================
+   LIMPIAR ESTILOS
+========================================================== */
+
+function limpiarCorreccion() {
+
+    document
+        .querySelectorAll(".option")
+        .forEach(option => {
+
+            option.classList.remove(
+                "correct",
+                "incorrect"
+            );
+
+        });
+
+
+    document
+        .querySelectorAll(".question")
+        .forEach(question => {
+
+            question.classList.remove(
+                "unanswered"
+            );
+
+        });
+
+}
+
+
+/* ==========================================================
+   CORREGIR TEST
+========================================================== */
+
+function corregirTest() {
+
+    let aciertos = 0;
+
+
+    limpiarCorreccion();
+
+
+    for (
+        let numero = 1;
+        numero <= TOTAL_PREGUNTAS;
+        numero++
+    ) {
+
+        const pregunta =
+            document.querySelector(
+                `.question[data-question="${numero}"]`
+            );
+
+
+        const respuestaSeleccionada =
+            document.querySelector(
+                `input[name="q${numero}"]:checked`
+            );
+
+
+        const respuestaCorrecta =
+            respostesCorrectes[`q${numero}`];
+
+
+        /*
+         * Obtenemos todas las opciones
+         * de esta pregunta.
+         */
+
+        const opciones =
+            pregunta.querySelectorAll(".option");
+
+
+        /*
+         * Marcamos siempre la respuesta correcta.
+         */
+
+        opciones.forEach(option => {
+
+            const input =
+                option.querySelector("input");
+
+
+            if (
+                input.value ===
+                respuestaCorrecta
+            ) {
+
+                option.classList.add("correct");
+
+            }
+
+        });
+
+
+        /*
+         * Si el usuario respondió...
+         */
+
+        if (respuestaSeleccionada) {
+
+            if (
+                respuestaSeleccionada.value ===
+                respuestaCorrecta
+            ) {
+
+                aciertos++;
+
+            } else {
+
+                respuestaSeleccionada
+                    .closest(".option")
+                    .classList.add("incorrect");
+
+            }
+
+        } else {
+
+            /*
+             * Pregunta sin contestar.
+             */
+
+            pregunta.classList.add("unanswered");
+
+        }
+
+    }
+
+
+    mostrarResultado(aciertos);
+
+
+    /*
+     * Llevamos al usuario hasta el resultado.
+     */
+
+    result.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+    });
+
+}
+
+
+/* ==========================================================
+   MOSTRAR RESULTADO
+========================================================== */
+
+function mostrarResultado(aciertos) {
+
+    const porcentaje =
+        Math.round(
+            (aciertos / TOTAL_PREGUNTAS) * 100
+        );
+
+
+    score.textContent =
+        `${aciertos} / ${TOTAL_PREGUNTAS}`;
+
+
+    percentage.textContent =
+        `${porcentaje}%`;
+
+
+    /*
+     * Mensaje según la puntuación.
+     */
+
+    if (porcentaje >= 90) {
+
+        message.textContent =
+            "🏆 Excel·lent! Tens molt bons coneixements.";
+
+    } else if (porcentaje >= 70) {
+
+        message.textContent =
+            "👏 Molt bé! Tens una bona base.";
+
+    } else if (porcentaje >= 50) {
+
+        message.textContent =
+            "📚 Aprovat! Encara pots reforçar alguns conceptes.";
+
+    } else {
+
+        message.textContent =
+            "💪 Continua practicant i repassa els conceptes.";
+
+    }
+
+
+    result.style.display =
+        "block";
+
+}
+
+
+/* ==========================================================
+   REINICIAR TEST
+========================================================== */
+
+function reiniciarTest() {
+
+    /*
+     * MUY IMPORTANTE:
+     *
+     * No utilizamos localStorage ni sessionStorage.
+     *
+     * Por tanto, al reiniciar:
+     * - No guardamos respuestas.
+     * - No recuperamos respuestas.
+     * - No mantenemos el resultado.
+     */
+
+
+    /*
+     * Desmarcar absolutamente todos
+     * los radio buttons.
+     */
+
+    document
+        .querySelectorAll(
+            'input[type="radio"]'
+        )
+        .forEach(input => {
+
+            input.checked = false;
+
+        });
+
+
+    /*
+     * Eliminar colores de corrección.
+     */
+
+    limpiarCorreccion();
+
+
+    /*
+     * Ocultar resultado.
+     */
+
+    result.style.display =
+        "none";
+
+
+    /*
+     * Reiniciar barra de progreso.
+     */
+
+    progressFill.style.width =
+        "0%";
+
+
+    progressText.textContent =
+        `0 / ${TOTAL_PREGUNTAS}`;
+
+
+    /*
+     * Volver al inicio.
+     */
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+
+}
+
+
+/* ==========================================================
+   EVENTOS
+========================================================== */
+
+
+/*
+ * Cuando se selecciona una respuesta,
+ * actualizamos el progreso.
+ */
+
+quiz.addEventListener(
+    "change",
+    actualizarProgreso
+);
+
+
+/*
+ * Botón corregir.
+ */
+
+correctButton.addEventListener(
+    "click",
+    corregirTest
+);
+
+
+/*
+ * Botón reiniciar.
+ */
+
+resetButton.addEventListener(
+    "click",
+    reiniciarTest
+);
+
+
+/* ==========================================================
+   INICIALIZACIÓN
+========================================================== */
+
+/*
+ * Limpiamos cualquier estado inicial.
+ *
+ * Esto garantiza que al cargar/refrescar
+ * la página el test empieza vacío.
+ */
+
+function inicializarTest() {
+
+    document
+        .querySelectorAll(
+            'input[type="radio"]'
+        )
+        .forEach(input => {
+
+            input.checked = false;
+
+        });
+
+
+    limpiarCorreccion();
+
+
+    result.style.display =
+        "none";
+
+
+    progressFill.style.width =
+        "0%";
+
+
+    progressText.textContent =
+        `0 / ${TOTAL_PREGUNTAS}`;
+
+}
+
+
+/*
+ * Ejecutar al cargar la página.
+ */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    inicializarTest
+);
+
+</script>
+
+</body>
+</html>
